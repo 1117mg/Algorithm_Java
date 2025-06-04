@@ -2,32 +2,23 @@ import java.util.HashMap;
 class Solution {
     public String solution(String[] participant, String[] completion) {
         String answer = "";
-        
-        HashMap<String, Integer> raceMap = new HashMap<String, Integer>();
-        
-        // step01 : 참가자 이름, 수
-        for(int i = 0; i < participant.length; i++) {
-            if(raceMap.get(participant[i]) != null){
-                raceMap.put(participant[i], raceMap.get(participant[i]) + 1);
-            } else {
-                raceMap.put(participant[i], 0);
-            }
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (String name : participant) {
+            map.put(name, map.getOrDefault(name, 0) + 1);
         }
-        
-        // step02 : 완주자 이름, 수 -> -1
-        for(int i = 0; i < completion.length; i++){
-            raceMap.put(completion[i], raceMap.get(completion[i]) - 1);
+
+        for (String name : completion) {
+            map.put(name, map.get(name) - 1);
         }
-        
-        
-        // step03 : 완주하지 못한 선수
-        for(int i = 0; i < participant.length; i++) {
-            if(raceMap.get(participant[i]) != -1){
-                answer = participant[i];
+
+        for (String key : map.keySet()) {
+            if (map.get(key) > 0) {
+                answer = key;
                 break;
             }
         }
-        
         return answer;
     }
 }
